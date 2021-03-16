@@ -55,13 +55,17 @@ export function TaskList() {
 
         <div className="input-group">
           <input
+            id="inputToDo"
             type="text"
             placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
+            onKeyDown={(e) => {
+              e.key === "Enter" && handleCreateNewTask();
+            }}
           />
           <button
-            type="submit"
+            type="button"
             data-testid="add-task-button"
             onClick={handleCreateNewTask}
           >

@@ -64,6 +64,11 @@ section.task-list {
   main {
     margin-top: 3rem;
 
+    i {
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+
     ul {
       list-style: none;
   

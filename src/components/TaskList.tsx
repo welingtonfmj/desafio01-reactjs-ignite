@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "../styles/tasklist.scss";
 
-import { FiTrash, FiCheckSquare } from "react-icons/fi";
+import { FiTrash, FiCheckSquare, FiFrown } from "react-icons/fi";
 
 interface Task {
   id: number;
@@ -55,13 +55,17 @@ export function TaskList() {
 
         <div className="input-group">
           <input
+            id="inputToDo"
             type="text"
             placeholder="Adicionar novo todo"
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
+            onKeyDown={(e) => {
+              e.key === "Enter" && handleCreateNewTask();
+            }}
           />
           <button
-            type="submit"
+            type="button"
             data-testid="add-task-button"
             onClick={handleCreateNewTask}
           >
@@ -71,35 +75,41 @@ export function TaskList() {
       </header>
 
       <main>
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <div
-                className={task.isComplete ? "completed" : ""}
-                data-testid="task"
-              >
-                <label className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    readOnly
-                    checked={task.isComplete}
-                    onClick={() => handleToggleTaskCompletion(task.id)}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-                <p>{task.title}</p>
-              </div>
+        {tasks.length > 0 ? (
+          <ul>
+            {tasks.map((task) => (
+              <li key={task.id}>
+                <div
+                  className={task.isComplete ? "completed" : ""}
+                  data-testid="task"
+                >
+                  <label className="checkbox-container">
+                    <input
+                      type="checkbox"
+                      readOnly
+                      checked={task.isComplete}
+                      onClick={() => handleToggleTaskCompletion(task.id)}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                  <p>{task.title}</p>
+                </div>
 
-              <button
-                type="button"
-                data-testid="remove-task-button"
-                onClick={() => handleRemoveTask(task.id)}
-              >
-                <FiTrash size={16} />
-              </button>
-            </li>
-          ))}
-        </ul>
+                <button
+                  type="button"
+                  data-testid="remove-task-button"
+                  onClick={() => handleRemoveTask(task.id)}
+                >
+                  <FiTrash size={16} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <i>
+            Ainda sem tarefas... <FiFrown size={18} />
+          </i>
+        )}
       </main>
     </section>
   );
